@@ -10,17 +10,17 @@ echo "MYSQL_ROOT_PASSWORD=rootpassword" > .env
 echo "-- 資料庫初始化腳本" > init.sql
 
 # 為每個 WordPress 實例收集資訊並寫入設定
-for i in $(seq 1 $wp_count)
+for i in `seq 1 $wp_count`   # 修改 seq 語法
 do
     echo "設定第 $i 個 WordPress 站台:"
     read -p "請輸入資料庫名稱 (預設: wordpress$i): " db_name
-    db_name=${db_name:-wordpress$i}
+    [ -z "$db_name" ] && db_name="wordpress$i"   # 修改變數預設值設定
     
     read -p "請輸入資料庫使用者名稱 (預設: user$i): " db_user
-    db_user=${db_user:-user$i}
+    [ -z "$db_user" ] && db_user="user$i"
     
     read -p "請輸入資料庫密碼 (預設: password$i): " db_password
-    db_password=${db_password:-password$i}
+    [ -z "$db_password" ] && db_password="password$i"
     
     # 寫入 .env
     echo "DB_NAME_$i=$db_name" >> .env
@@ -54,7 +54,7 @@ services:
 EOL
 
 # 動態生成 WordPress 服務配置
-for i in $(seq 1 $wp_count)
+for i in `seq 1 $wp_count`
 do
     echo "      - wordpress$i" >> docker-compose.yaml
 done
@@ -62,7 +62,7 @@ done
 echo "    restart: always" >> docker-compose.yaml
 
 # 為每個 WordPress 實例添加服務配置
-for i in $(seq 1 $wp_count)
+for i in `seq 1 $wp_count`
 do
     cat >> docker-compose.yaml << EOL
 
@@ -100,7 +100,7 @@ volumes:
 EOL
 
 # 添加 volumes 配置
-for i in $(seq 1 $wp_count)
+for i in `seq 1 $wp_count`
 do
     echo "  wordpress$i:" >> docker-compose.yaml
 done
@@ -110,7 +110,7 @@ echo "  db:" >> docker-compose.yaml
 > nginx.conf
 
 # 收集域名（修改陣列使用方式）
-for i in $(seq 1 $wp_count)
+for i in `seq 1 $wp_count`
 do
     read -p "請輸入第 $i 個 WordPress 的域名 (預設: domain$i.com): " domain_name
     if [ -z "$domain_name" ]; then
