@@ -10,7 +10,7 @@ echo "MYSQL_ROOT_PASSWORD=rootpassword" > .env
 echo "-- 資料庫初始化腳本" > init.sql
 
 # 為每個 WordPress 實例收集資訊並寫入設定
-for (( i=1; i<=$wp_count; i++ ))
+for i in $(seq 1 $wp_count)
 do
     echo "設定第 $i 個 WordPress 站台:"
     read -p "請輸入資料庫名稱 (預設: wordpress$i): " db_name
@@ -109,17 +109,18 @@ echo "  db:" >> docker-compose.yaml
 # 生成 nginx.conf
 > nginx.conf
 
-# 收集域名
-declare -a domains
-for (( i=1; i<=$wp_count; i++ ))
+# 收集域名（修改陣列使用方式）
+for i in $(seq 1 $wp_count)
 do
     read -p "請輸入第 $i 個 WordPress 的域名 (預設: domain$i.com): " domain_name
-    domains[$i]=${domain_name:-domain$i.com}
+    if [ -z "$domain_name" ]; then
+        domain_name="domain$i.com"
+    fi
     
     cat >> nginx.conf << EOL
 server {
     listen 80;
-    server_name ${domains[$i]};
+    server_name $domain_name;
 
     location / {
         proxy_pass http://wordpress$i;
