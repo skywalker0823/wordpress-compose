@@ -134,5 +134,5 @@ server {
 EOL
 done
 
-echo "設定完成！請檢查 .env、docker-compose.yaml、nginx.conf 和 init.sql 檔案。"
+echo "設定完成！請檢查 .env、docker-compose.yaml、nginx.conf 和 init.sql 檔案。執行docker-compose up -d啟動服務。"
 chmod +x setup.sh
