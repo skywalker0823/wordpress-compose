@@ -1,4 +1,15 @@
 services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - wordpress1
+      - wordpress2
+    restart: always
+
   wordpress1:
     image: wordpress
     restart: always
@@ -25,19 +36,6 @@ services:
     volumes:
       - wordpress2:/var/www/html
 
-  # wordpress3:
-  #   image: wordpress
-  #   restart: always
-  #   ports:
-  #     - ${WORDPRESS_PORT_3}:80
-  #   environment:
-  #     WORDPRESS_DB_HOST: db
-  #     WORDPRESS_DB_USER: ${DB_USER_3}
-  #     WORDPRESS_DB_PASSWORD: ${DB_PASSWORD_3}
-  #     WORDPRESS_DB_NAME: ${DB_NAME_3}
-  #   volumes:
-  #     - wordpress3:/var/www/html
-
   db:
     image: mariadb
     restart: always
@@ -50,19 +48,7 @@ services:
       - db:/var/lib/mariadb
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - wordpress1
-      - wordpress2
-    restart: always
-
 volumes:
   wordpress1:
   wordpress2:
-  # wordpress3:
   db:
