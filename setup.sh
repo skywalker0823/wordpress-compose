@@ -54,7 +54,7 @@ services:
 EOL
 
 # 動態生成 WordPress 服務配置
-for (( i=1; i<=$wp_count; i++ ))
+for i in $(seq 1 $wp_count)
 do
     echo "      - wordpress$i" >> docker-compose.yaml
 done
@@ -62,7 +62,7 @@ done
 echo "    restart: always" >> docker-compose.yaml
 
 # 為每個 WordPress 實例添加服務配置
-for (( i=1; i<=$wp_count; i++ ))
+for i in $(seq 1 $wp_count)
 do
     cat >> docker-compose.yaml << EOL
 
@@ -100,7 +100,7 @@ volumes:
 EOL
 
 # 添加 volumes 配置
-for (( i=1; i<=$wp_count; i++ ))
+for i in $(seq 1 $wp_count)
 do
     echo "  wordpress$i:" >> docker-compose.yaml
 done
