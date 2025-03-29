@@ -108,12 +108,18 @@ echo "  db:" >> docker-compose.yaml
 
 # 生成 nginx.conf
 > nginx.conf
+
+# 收集域名
+declare -a domains
 for (( i=1; i<=$wp_count; i++ ))
 do
+    read -p "請輸入第 $i 個 WordPress 的域名 (預設: domain$i.com): " domain_name
+    domains[$i]=${domain_name:-domain$i.com}
+    
     cat >> nginx.conf << EOL
 server {
     listen 80;
-    server_name domain$i.com;
+    server_name ${domains[$i]};
 
     location / {
         proxy_pass http://wordpress$i;
