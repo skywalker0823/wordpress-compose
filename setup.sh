@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 詢問要建立幾個 WordPress 實例
-read -p "請輸入要建立幾個 WordPress 站台 (1-5): " wp_count
+read -p "請輸入要建立幾個 WordPress 站台 (1-99): " wp_count
 
 # 建立 .env 文件
 echo "MYSQL_ROOT_PASSWORD=rootpassword" > .env
