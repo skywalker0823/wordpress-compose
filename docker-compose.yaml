@@ -1,0 +1,68 @@
+services:
+  wordpress1:
+    image: wordpress
+    restart: always
+    ports:
+      - ${WORDPRESS_PORT_1}:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${DB_USER_1}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD_1}
+      WORDPRESS_DB_NAME: ${DB_NAME_1}
+    volumes:
+      - wordpress1:/var/www/html
+
+  wordpress2:
+    image: wordpress
+    restart: always
+    ports:
+      - ${WORDPRESS_PORT_2}:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${DB_USER_2}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD_2}
+      WORDPRESS_DB_NAME: ${DB_NAME_2}
+    volumes:
+      - wordpress2:/var/www/html
+
+  # wordpress3:
+  #   image: wordpress
+  #   restart: always
+  #   ports:
+  #     - ${WORDPRESS_PORT_3}:80
+  #   environment:
+  #     WORDPRESS_DB_HOST: db
+  #     WORDPRESS_DB_USER: ${DB_USER_3}
+  #     WORDPRESS_DB_PASSWORD: ${DB_PASSWORD_3}
+  #     WORDPRESS_DB_NAME: ${DB_NAME_3}
+  #   volumes:
+  #     - wordpress3:/var/www/html
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME_1}
+      MYSQL_USER: ${DB_USER_1}
+      MYSQL_PASSWORD: ${DB_PASSWORD_1}
+    volumes:
+      - db:/var/lib/mariadb
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - wordpress1
+      - wordpress2
+    restart: always
+
+volumes:
+  wordpress1:
+  wordpress2:
+  # wordpress3:
+  db:
