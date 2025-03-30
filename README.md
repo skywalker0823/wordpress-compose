@@ -17,7 +17,7 @@ GitHub Repository: [https://github.com/skywalker0823/wordpress-compose.git](http
 - 資料庫資訊（名稱、使用者、密碼）
 - 安裝 Docker 與 Docker-Compose
 
-### 安裝 Docker 與 Docker-Compose（RHEL/CentOS）
+### 安裝 Docker 與 Docker-Compose（RHEL/CentOS）可參考腳本執行
 
 ```bash
 # 移除舊版本
