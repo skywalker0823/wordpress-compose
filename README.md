@@ -1,4 +1,4 @@
-# WordPress 多站點 Docker-Compose 部署指南
+# WordPress 多站點 Docker-Compose 部署
 
 ## 目標
 
