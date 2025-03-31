@@ -117,7 +117,8 @@ docker-compose up -d    # 重新啟動
 - [Docker 官方文件](https://docs.docker.com/)
 - [Docker-Compose 官方文件](https://docs.docker.com/compose/)
 - [CentOS Docker 安裝指南](https://docs.docker.com/engine/install/centos/)
-- CentOS 7 Source 
+- CentOS 7 Source
+```bash
 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.vpnforgame.net/centos/7/CentOS-Base.repo
 
 curl -o /etc/yum.repos.d/epel.repo http://mirrors.vpnforgame.net/epel/7/epel.repo
@@ -125,3 +126,4 @@ curl -o /etc/yum.repos.d/epel.repo http://mirrors.vpnforgame.net/epel/7/epel.rep
 yum clean all
 
 yum makecache
+```
